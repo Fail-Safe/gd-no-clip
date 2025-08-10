@@ -1,6 +1,6 @@
 # No-Clip (Geode mod)
 
-[![Build](https://github.com/OWNER/REPO/actions/workflows/build.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/build.yml)
+[![Build](https://github.com/Fail-Safe/gd-no-clip/actions/workflows/build.yml/badge.svg)](https://github.com/Fail-Safe/gd-no-clip/actions/workflows/build.yml)
 
 A minimal, toggleable "no-clip" mod for Geometry Dash 2.2+ built with Geode.
 It provides an in-game toggle and keybind, and hooks PlayLayer::destroyPlayer to

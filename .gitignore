@@ -1,5 +1,6 @@
 ## Build artifacts (out-of-source builds)
 build*/
+dist/
 
 ## In-source CMake artifacts (just in case)
 **/CMakeFiles/
@@ -29,7 +30,8 @@ compile_commands.json
 *.geode.zip
 
 ## Editor / OS
-.vscode/
+.vscode/*
+!.vscode/tasks.json
 .idea/
 .DS_Store
 Thumbs.db
