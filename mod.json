@@ -1,0 +1,30 @@
+{
+    "geode": "4.7.0",
+    "gd": {
+        "win": "2.2074",
+        "mac": "2.2074"
+    },
+    "id": "com.example.gd-noclip",
+    "name": "No-Clip",
+    "version": "0.1.0",
+    "developer": "EdisonBaker",
+    "description": "Toggleable no-clip: skip death checks to pass through objects. Includes in-game toggle and keybind.",
+    "repository": "",
+    "resources": [],
+    "settings": {
+        "noclipEnabled": {
+            "name": "Enable No-Clip",
+            "type": "bool",
+            "default": false,
+            "description": "When enabled, death is skipped so you can pass through obstacles.",
+            "category": "Gameplay"
+        },
+        "toggleKey": {
+            "name": "Toggle Key",
+            "type": "keybind",
+            "default": "RightShift",
+            "description": "Keybind to toggle no-clip on/off in a level.",
+            "category": "Gameplay"
+        }
+    }
+}

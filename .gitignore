@@ -1,0 +1,39 @@
+## Build artifacts (out-of-source builds)
+build*/
+
+## In-source CMake artifacts (just in case)
+**/CMakeFiles/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/Makefile
+**/CPM_modules/
+**/cpm-package-lock.cmake
+
+## Binaries & intermediates
+**/*.o
+**/*.obj
+**/*.d
+**/*.a
+**/*.lib
+**/*.so
+**/*.dylib
+**/*.pch
+compile_commands.json
+
+## SDK & tooling clones/caches
+.geode-sdk/
+.geode-cache/
+
+## Packages
+*.geode
+*.geode.zip
+
+## Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+## Misc
+/.cache/
+*.log
