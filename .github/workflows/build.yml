@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ windows-latest, macos-latest ]
+        os: [ windows-latest ]
 
     steps:
       - name: Checkout
@@ -33,8 +33,8 @@ jobs:
       - name: Install Geode CLI
         run: cargo install --git https://github.com/geode-sdk/cli --locked
 
-      - name: Build release
-        run: geode build --release
+      - name: Build (Release)
+        run: geode build --config Release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
