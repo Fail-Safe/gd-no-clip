@@ -33,6 +33,14 @@ jobs:
       - name: Install Geode CLI
         run: cargo install --git https://github.com/geode-sdk/cli --locked
 
+      - name: Prepare Geode SDK (Windows)
+        if: startsWith(runner.os, 'Windows')
+        run: |
+          geode sdk install "$env:GITHUB_WORKSPACE/.geode-sdk" --force
+          geode sdk set-path "$env:GITHUB_WORKSPACE/.geode-sdk"
+          geode sdk install-binaries --platform windows -v 4.7.0
+          echo "GEODE_SDK=$env:GITHUB_WORKSPACE/.geode-sdk" >> $env:GITHUB_ENV
+
       - name: Build (Release)
         run: geode build --config Release
 
