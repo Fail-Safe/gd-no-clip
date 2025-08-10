@@ -36,6 +36,10 @@ jobs:
       - name: Prepare Geode SDK (Windows)
         if: startsWith(runner.os, 'Windows')
         run: |
+          $profilePath = "$env:RUNNER_TEMP\geode-profile"
+          New-Item -ItemType Directory -Force -Path $profilePath | Out-Null
+          geode profile add --name ci $profilePath windows
+          geode profile switch ci
           geode sdk install "$env:GITHUB_WORKSPACE/.geode-sdk" --force
           geode sdk set-path "$env:GITHUB_WORKSPACE/.geode-sdk"
           geode sdk install-binaries --platform windows -v 4.7.0
