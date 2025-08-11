@@ -22,6 +22,7 @@ namespace
 {
     bool g_noclipEnabled = false;
     constexpr int kIndicatorTag = 0xC001F; // unique-ish tag for our overlay label
+    constexpr int kToastTagBase = 0xC0A57; // base tag for transient toasts
 
     void setNoclip(bool enabled)
     {
@@ -43,6 +44,31 @@ namespace
                     label->setColor(col);
                 }
             }
+        }
+
+        // Show transient toast (top center) each time state changes
+        if (auto *scene = cocos2d::CCDirector::sharedDirector()->getRunningScene())
+        {
+            // Remove any existing toast
+            if (auto *old = scene->getChildByTag(kToastTagBase))
+            {
+                old->removeFromParentAndCleanup(true);
+            }
+            auto msg = g_noclipEnabled ? "No-Clip: ON" : "No-Clip: OFF";
+            auto *label = cocos2d::CCLabelBMFont::create(msg, "bigFont.fnt");
+            auto const winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
+            label->setPosition({winSize.width / 2.f, winSize.height - 40.f});
+            label->setZOrder(10000);
+            label->setTag(kToastTagBase);
+            label->setScale(0.5f);
+            label->setOpacity(0);
+            scene->addChild(label);
+            // Sequence: fade in -> delay -> fade out -> remove
+            auto *fadeIn = cocos2d::CCFadeTo::create(0.15f, 255);
+            auto *delay = cocos2d::CCDelayTime::create(0.85f);
+            auto *fadeOut = cocos2d::CCFadeTo::create(0.4f, 0);
+            auto *cleanup = cocos2d::CCCallFunc::create(label, callfunc_selector(cocos2d::CCNode::removeFromParent));
+            label->runAction(cocos2d::CCSequence::create(fadeIn, delay, fadeOut, cleanup, nullptr));
         }
     }
 
