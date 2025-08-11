@@ -21,7 +21,7 @@
         },
         "toggleKey": {
             "name": "Toggle Key",
-            "type": "keybind",
+            "type": "string",
             "default": "RightShift",
             "description": "Keybind to toggle no-clip on/off in a level.",
             "category": "Gameplay"
