@@ -89,6 +89,42 @@
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Geode: Windows Debug Script (PowerShell)",
+            "type": "shell",
+            "command": "pwsh -ExecutionPolicy Bypass -File scripts/build-windows-debug.ps1",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Geode: Windows Debug Script (BAT)",
+            "type": "shell",
+            "command": "scripts/build-windows-debug.bat",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake: Build Preset (windows-debug)",
+            "type": "shell",
+            "command": "cmake --build --preset windows-debug",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake: Build Preset (windows-ninja-debug)",
+            "type": "shell",
+            "command": "cmake --build --preset windows-ninja-debug",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
     ]
 }

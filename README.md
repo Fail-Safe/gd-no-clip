@@ -59,11 +59,68 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release
 ```
 
-## Windows and macOS via GitHub Actions
-This repo includes `.github/workflows/build.yml` which runs on `windows-latest` and
-`macos-latest`, installs Geode CLI, builds, and uploads the `.geode` artifact.
+## Windows Build (Local)
+Prerequisites:
+- Visual Studio 2022 (Desktop development with C++) or Build Tools
+- Geode CLI (`cargo install geode-cli`)
+- Git (and CMake if not using VS's bundled one)
 
-To enable the badge above, replace OWNER/REPO in the badge URL with your GitHub org/user and repository name after pushing this project to GitHub.
+First-time setup & build (PowerShell):
+```powershell
+git clone https://github.com/Fail-Safe/gd-no-clip.git
+cd gd-no-clip
+$env:GEODE_SDK = "$PWD/.geode-sdk"
+geode sdk install $env:GEODE_SDK
+geode sdk install-binaries --platform windows -v 4.7.0
+geode build --config Release
+```
+Package appears in `dist\\*.geode` and is auto-installed if a Geode profile for GD is configured.
+
+Helper scripts (in `scripts/`):
+- `scripts/build-windows-release.ps1`
+- `scripts/build-windows-release.bat`
+- `scripts/build-windows-debug.ps1`
+- `scripts/build-windows-debug.bat`
+
+Run script instead of manual commands:
+```powershell
+pwsh -File scripts/build-windows-release.ps1
+```
+
+Using CMake manually (optional):
+```powershell
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
+```
+
+Troubleshooting (Windows):
+- `No valid loader binary to link to!` -> run `geode sdk install-binaries --platform windows -v 4.7.0` ensuring `$env:GEODE_SDK` points to the repo's `.geode-sdk`.
+- Stale errors after moving folders -> delete `build` directory and rebuild.
+- Missing `.geode` output -> ensure build ended with `Built target *_PACKAGE`; otherwise run `geode build --config Release`.
+
+### Presets & Ninja (Windows)
+This repo includes `CMakePresets.json` with these configure/build presets:
+- `windows-release` / `windows-debug`: Multi-config Visual Studio generator.
+- `windows-ninja-release` / `windows-ninja-debug`: Single-config Ninja builds (faster incremental).
+
+Using a preset:
+```powershell
+cmake --preset windows-ninja-release
+cmake --build --preset windows-ninja-release
+```
+
+VS Code: Run a task named `CMake: Build Preset (windows-ninja-release)` (added in `.vscode/tasks.json`).
+
+Install Ninja (one-time):
+```powershell
+winget install Ninja-build.Ninja   # or choco install ninja
+```
+Ensure `ninja` is on PATH, then reconfigure with the Ninja preset.
+
+## CI (GitHub Actions)
+This repo includes `.github/workflows/build.yml` which currently runs on Windows, installs the Geode CLI & SDK, builds, and uploads the `.geode` artifact.
+
+The badge above points to the build workflow for this repository.
 
 ## Install the .geode
 - Open GD with Geode Loader
