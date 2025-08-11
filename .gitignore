@@ -29,6 +29,11 @@ compile_commands.json
 *.geode
 *.geode.zip
 
+# Allow build scripts directory
+!scripts/
+!scripts/*.bat
+!scripts/*.ps1
+
 # Keep VS Code settings tracked
 .vscode/*
 !.vscode/tasks.json

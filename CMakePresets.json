@@ -1,74 +1,92 @@
 {
-  "version": 6,
-  "cmakeMinimumRequired": { "major": 3, "minor": 21, "patch": 0 },
-  "configurePresets": [
-    {
-      "name": "windows-release",
-      "displayName": "Windows MSVC Release (VS Generator)",
-      "description": "Release build using Visual Studio 17 2022 generator",
-      "generator": "Visual Studio 17 2022",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      },
-      "environment": {
-        "GEODE_SDK": "${sourceDir}/.geode-sdk"
-      }
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
     },
-    {
-      "name": "windows-debug",
-      "displayName": "Windows MSVC Debug (VS Generator)",
-      "description": "Debug build using Visual Studio 17 2022 generator",
-      "generator": "Visual Studio 17 2022",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      },
-      "environment": {
-        "GEODE_SDK": "${sourceDir}/.geode-sdk"
-      }
-    },
-    {
-      "name": "windows-ninja-release",
-      "displayName": "Windows Ninja Release (MSVC)",
-      "description": "Faster single-config Release build using Ninja + MSVC toolchain",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/ninja-release",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      },
-      "toolset": "host=x64",
-      "architecture": "x64",
-      "environment": {
-        "GEODE_SDK": "${sourceDir}/.geode-sdk"
-      }
-    },
-    {
-      "name": "windows-ninja-debug",
-      "displayName": "Windows Ninja Debug (MSVC)",
-      "description": "Debug build using Ninja + MSVC",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/ninja-debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      },
-      "toolset": "host=x64",
-      "architecture": "x64",
-      "environment": {
-        "GEODE_SDK": "${sourceDir}/.geode-sdk"
-      }
-    }
-  ],
-  "buildPresets": [
-    { "name": "windows-release", "configurePreset": "windows-release", "configuration": "Release" },
-    { "name": "windows-debug", "configurePreset": "windows-debug", "configuration": "Debug" },
-    { "name": "windows-ninja-release", "configurePreset": "windows-ninja-release" },
-    { "name": "windows-ninja-debug", "configurePreset": "windows-ninja-debug" }
-  ]
+    "configurePresets": [
+        {
+            "name": "windows-release",
+            "displayName": "Windows MSVC Release (VS Generator)",
+            "description": "Release build using Visual Studio 17 2022 generator",
+            "generator": "Visual Studio 17 2022",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            },
+            "environment": {
+                "GEODE_SDK": "${sourceDir}/.geode-sdk"
+            }
+        },
+        {
+            "name": "windows-debug",
+            "displayName": "Windows MSVC Debug (VS Generator)",
+            "description": "Debug build using Visual Studio 17 2022 generator",
+            "generator": "Visual Studio 17 2022",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "environment": {
+                "GEODE_SDK": "${sourceDir}/.geode-sdk"
+            }
+        },
+        {
+            "name": "windows-ninja-release",
+            "displayName": "Windows Ninja Release (MSVC)",
+            "description": "Faster single-config Release build using Ninja + MSVC toolchain",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/ninja-release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            },
+            "toolset": "host=x64",
+            "architecture": "x64",
+            "environment": {
+                "GEODE_SDK": "${sourceDir}/.geode-sdk"
+            }
+        },
+        {
+            "name": "windows-ninja-debug",
+            "displayName": "Windows Ninja Debug (MSVC)",
+            "description": "Debug build using Ninja + MSVC",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/ninja-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "toolset": "host=x64",
+            "architecture": "x64",
+            "environment": {
+                "GEODE_SDK": "${sourceDir}/.geode-sdk"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-release",
+            "configurePreset": "windows-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "windows-debug",
+            "configurePreset": "windows-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "windows-ninja-release",
+            "configurePreset": "windows-ninja-release"
+        },
+        {
+            "name": "windows-ninja-debug",
+            "configurePreset": "windows-ninja-debug"
+        }
+    ]
 }
