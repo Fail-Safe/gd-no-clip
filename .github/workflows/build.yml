@@ -19,6 +19,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Cache Geode SDK
+        uses: actions/cache@v4
+        with:
+          path: .geode-sdk
+          key: geode-sdk-${{ runner.os }}-v4.7.0
+          restore-keys: |
+            geode-sdk-${{ runner.os }}-
+
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
@@ -29,6 +37,18 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache CMake/CPM deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/_deps
+            build/CPM_modules
+            build/_geode
+            build/cpm-package-lock.cmake
+          key: cmake-deps-${{ runner.os }}-${{ hashFiles('CMakeLists.txt', 'src/CMakeLists.txt') }}-geode-v4.7.0
+          restore-keys: |
+            cmake-deps-${{ runner.os }}-
 
       - name: Install Geode CLI
         run: cargo install --git https://github.com/geode-sdk/cli --locked
@@ -41,16 +61,39 @@ jobs:
           geode profile add --name ci $profilePath windows
           geode profile switch ci
           $env:GEODE_SDK = "$env:GITHUB_WORKSPACE/.geode-sdk"
-          geode sdk install "$env:GEODE_SDK" --force
+          if (-Not (Test-Path -Path $env:GEODE_SDK)) { New-Item -ItemType Directory -Force -Path $env:GEODE_SDK | Out-Null }
+          geode sdk install "$env:GEODE_SDK"
           geode sdk set-path "$env:GEODE_SDK"
-          geode sdk install-binaries --platform windows -v 4.7.0
+          # Install binaries only if not already present
+          if (-Not (Test-Path -Path (Join-Path $env:GEODE_SDK "bin"))) {
+            geode sdk install-binaries --platform windows -v 4.7.0
+          } else {
+            Write-Host "Geode binaries already present in $env:GEODE_SDK\bin; skipping install-binaries"
+          }
           "GEODE_SDK=$env:GEODE_SDK" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Build (Release)
         run: geode build --config Release
 
+      - name: List built packages
+        if: always()
+        shell: pwsh
+        run: |
+          Write-Host "Searching for .geode packages..."
+          $files = Get-ChildItem -Path . -Recurse -Filter *.geode -ErrorAction SilentlyContinue
+          if ($files) {
+            $files | ForEach-Object { Write-Host "Found: $($_.FullName)" }
+          } else {
+            Write-Host "No .geode packages found."
+            Write-Host "Workspace tree (top-level):"
+            Get-ChildItem -Path .
+          }
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: gd-noclip-${{ runner.os }}
-          path: dist/*.geode
+          path: |
+            dist/**/*.geode
+            build/**/*.geode
+            **/*.geode
