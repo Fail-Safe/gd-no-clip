@@ -7,23 +7,23 @@ cd /d %~dp0\..
 
 echo [INFO] Locating Visual Studio installation...
 set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
-if not exist "%VSWHERE%" (
-  echo [ERROR] vswhere.exe not found. Install Visual Studio 2022 (C++ workload) first.
-  pause & exit /b 1
-)
-for /f "usebackq tokens=*" %%I in (`"%VSWHERE%" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do set "VS_PATH=%%I"
-if not defined VS_PATH (
-  echo [ERROR] Could not find a Visual Studio installation with C++ tools.
-  pause & exit /b 1
-)
+if not exist "%VSWHERE%" goto novswhere
+for /f "delims=" %%I in ('"%VSWHERE%" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath') do set "VS_PATH=%%I"
+if not defined VS_PATH goto novswhere
 echo [INFO] VS path: %VS_PATH%
 
 echo [INFO] Setting up MSVC environment...
-call "%VS_PATH%\VC\Auxiliary\Build\vcvars64.bat" >nul
-if errorlevel 1 (
-  echo [ERROR] Failed to initialize MSVC environment.
-  pause & exit /b 1
+if defined VS_PATH (
+  call "%VS_PATH%\VC\Auxiliary\Build\vcvars64.bat" >nul 2>nul
+  if errorlevel 1 echo [WARN] Could not init MSVC via vcvars64.bat (continuing if already in dev shell)
 )
+
+goto :after_vs
+
+:novswhere
+echo [WARN] vswhere.exe not found or VS path unresolved. If build fails, run from a "Developer Command Prompt for VS".
+
+:after_vs
 
 where geode >nul 2>nul
 if errorlevel 1 (
