@@ -10,7 +10,7 @@
     "developer": "Edison Baker",
     "description": "Toggleable no-clip: skip death checks to pass through objects. Includes in-game toggle and keybind.",
     "repository": "",
-    "resources": [],
+    "resources": {},
     "settings": {
         "noclipEnabled": {
             "name": "Enable No-Clip",
