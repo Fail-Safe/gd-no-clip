@@ -2,6 +2,10 @@
 #include <Geode/loader/Setting.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <cctype>
 
 using namespace geode::prelude;
 
@@ -116,7 +120,11 @@ class $modify(GDNoclip_GJBaseGameLayer, GJBaseGameLayer)
 {
     void keyDown(cocos2d::enumKeyCodes code)
     {
-        // Resolve configured key as string; fallback to RightShift
+        // List of allowed keys (should match mod.json options)
+        static const std::vector<std::string> allowedKeys = {
+            "RightShift", "LeftShift", "Space", "A", "S", "D", "F", "Q", "W", "E", "R", "Up", "Down", "Left", "Right"};
+
+        // Get configured keys (comma-separated)
         std::string configured;
         try
         {
@@ -129,7 +137,40 @@ class $modify(GDNoclip_GJBaseGameLayer, GJBaseGameLayer)
         if (configured.empty())
             configured = "RightShift";
 
-        // Convert pressed key to string via keyboard dispatcher
+        // Split configured keys and normalize
+        std::vector<std::string> keys;
+        size_t start = 0, end = 0;
+        while ((end = configured.find(',', start)) != std::string::npos)
+        {
+            std::string k = configured.substr(start, end - start);
+            k.erase(std::remove_if(k.begin(), k.end(), ::isspace), k.end());
+            if (!k.empty())
+                keys.push_back(k);
+            start = end + 1;
+        }
+        std::string last = configured.substr(start);
+        last.erase(std::remove_if(last.begin(), last.end(), ::isspace), last.end());
+        if (!last.empty())
+            keys.push_back(last);
+
+        // Validate keys: must be in allowedKeys
+        bool valid = true;
+        for (const auto &k : keys)
+        {
+            auto it = std::find(allowedKeys.begin(), allowedKeys.end(), k);
+            if (it == allowedKeys.end())
+            {
+                valid = false;
+                break;
+            }
+        }
+        if (!valid || keys.empty())
+        {
+            log::warn("No-Clip: Invalid or empty toggleKey setting. Falling back to RightShift.");
+            keys = {"RightShift"};
+        }
+
+        // Convert pressed key to string
         std::string pressed;
         if (auto *disp = cocos2d::CCDirector::sharedDirector()->getKeyboardDispatcher())
         {
@@ -148,10 +189,14 @@ class $modify(GDNoclip_GJBaseGameLayer, GJBaseGameLayer)
             return out;
         };
 
-        if (!pressed.empty() && normalize(pressed) == normalize(configured))
+        // Match any configured key
+        for (const auto &k : keys)
         {
-            toggleNoclip();
-            // Consume or allow? Let base handle too for minimal interference
+            if (!pressed.empty() && normalize(pressed) == normalize(k))
+            {
+                toggleNoclip();
+                break;
+            }
         }
 
         GJBaseGameLayer::keyDown(code);

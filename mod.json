@@ -20,10 +20,27 @@
             "category": "Gameplay"
         },
         "toggleKey": {
-            "name": "Toggle Key",
-            "type": "string",
+            "name": "Toggle Key(s)",
+            "type": "enum",
+            "options": [
+                "RightShift",
+                "LeftShift",
+                "Space",
+                "A",
+                "S",
+                "D",
+                "F",
+                "Q",
+                "W",
+                "E",
+                "R",
+                "Up",
+                "Down",
+                "Left",
+                "Right"
+            ],
             "default": "RightShift",
-            "description": "Keybind to toggle no-clip on/off in a level.",
+            "description": "Key(s) to toggle no-clip on/off in a level. For multiple keys, separate with commas (e.g. 'A,Space').",
             "category": "Gameplay"
         }
     }

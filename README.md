@@ -130,7 +130,7 @@ The badge above points to the build workflow for this repository.
 ## Usage
 - Settings:
   - Enable No-Clip (bool): toggles skipping death checks
-  - Toggle Key (keybind): default RightShift; press in-level to flip no-clip
+  - Toggle Key(s): choose from dropdown; supports multiple keys (comma-separated, e.g. "A,Space"). Invalid/empty keys fall back to RightShift.
 - When enabled, player death is prevented by skipping `PlayLayer::destroyPlayer`
 
 ## Limitations
