@@ -125,6 +125,18 @@
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Simple Windows Build (One-Click)",
+            "type": "shell",
+            "command": "scripts/build-simple-windows.cmd",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
         }
     ]
 }

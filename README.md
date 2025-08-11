@@ -98,6 +98,13 @@ Troubleshooting (Windows):
 - Stale errors after moving folders -> delete `build` directory and rebuild.
 - Missing `.geode` output -> ensure build ended with `Built target *_PACKAGE`; otherwise run `geode build --config Release`.
 
+### Quick Build for Kids / Beginners
+Simplest path (after initial tool installs):
+1. Open the folder in VS Code.
+2. Press Ctrl+Shift+P, choose "Run Task", pick "Simple Windows Build (One-Click)".
+3. Wait for "[OK] Build complete" and look in `dist/` for the `.geode` file.
+If it fails saying compiler not found, ensure Visual Studio 2022 C++ components are installed (Desktop development with C++ workload) and try again.
+
 ### Presets & Ninja (Windows)
 This repo includes `CMakePresets.json` with these configure/build presets:
 - `windows-release` / `windows-debug`: Multi-config Visual Studio generator.
