@@ -53,6 +53,42 @@
                 "kind": "build"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Geode: Windows Build Script (PowerShell)",
+            "type": "shell",
+            "command": "pwsh -ExecutionPolicy Bypass -File scripts/build-windows-release.ps1",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Geode: Windows Build Script (BAT)",
+            "type": "shell",
+            "command": "scripts/build-windows-release.bat",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake: Build Preset (windows-release)",
+            "type": "shell",
+            "command": "cmake --build --preset windows-release",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake: Build Preset (windows-ninja-release)",
+            "type": "shell",
+            "command": "cmake --build --preset windows-ninja-release",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
     ]
 }
