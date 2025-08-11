@@ -1,34 +1,24 @@
 @echo off
-REM Simple one-click build script for gd-no-clip (Release)
-REM Locates Visual Studio, sets env, ensures Geode SDK + binaries, builds & packages.
+REM Ultra-simple build script for gd-no-clip (Release)
+REM Assumes you run it from a Developer Command Prompt for VS 2022 (so cl.exe is on PATH).
+REM If it fails complaining about the compiler, open the "x64 Native Tools Command Prompt" and run again.
 
 setlocal
 cd /d %~dp0\..
 
-echo [INFO] Locating Visual Studio installation...
-set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
-if not exist "%VSWHERE%" goto novswhere
-for /f "delims=" %%I in ('"%VSWHERE%" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath') do set "VS_PATH=%%I"
-if not defined VS_PATH goto novswhere
-echo [INFO] VS path: %VS_PATH%
-
-echo [INFO] Setting up MSVC environment...
-if defined VS_PATH (
-  call "%VS_PATH%\VC\Auxiliary\Build\vcvars64.bat" >nul 2>nul
-  if errorlevel 1 echo [WARN] Could not init MSVC via vcvars64.bat (continuing if already in dev shell)
+echo [INFO] Checking compiler availability...
+where cl >nul 2>nul
+if errorlevel 1 (
+  echo [ERROR] cl.exe not found. Open a "x64 Native Tools Command Prompt for VS 2022" and re-run this script.
+  pause
+  exit /b 1
 )
-
-goto :after_vs
-
-:novswhere
-echo [WARN] vswhere.exe not found or VS path unresolved. If build fails, run from a "Developer Command Prompt for VS".
-
-:after_vs
 
 where geode >nul 2>nul
 if errorlevel 1 (
   echo [ERROR] Geode CLI not found on PATH. Install with: cargo install geode-cli
-  pause & exit /b 1
+  pause
+  exit /b 1
 )
 
 set "GEODE_SDK=%CD%\.geode-sdk"
