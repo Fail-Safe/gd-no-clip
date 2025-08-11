@@ -4,10 +4,10 @@
         "win": "2.2074",
         "mac": "2.2074"
     },
-    "id": "com.example.gd-noclip",
+    "id": "net.vpost.gd-noclip",
     "name": "No-Clip",
     "version": "0.1.0",
-    "developer": "EdisonBaker",
+    "developer": "Edison Baker",
     "description": "Toggleable no-clip: skip death checks to pass through objects. Includes in-game toggle and keybind.",
     "repository": "",
     "resources": [],

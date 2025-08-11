@@ -23,7 +23,7 @@ You can build and package with the Geode CLI (recommended):
 
 ```sh
 # From repo root
-geode build --release
+geode build --config Release
 ```
 
 Artifacts will be placed in `dist/` as a `.geode` file.
@@ -44,7 +44,7 @@ geode sdk install-binaries --platform MacOS -v 4.7.0
 export GEODE_SDK="$PWD/.geode-sdk"
 
 # 4) Build with CLI
-geode build --release
+geode build --config Release
 ```
 
 Notes:
