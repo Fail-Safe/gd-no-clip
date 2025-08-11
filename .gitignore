@@ -29,9 +29,12 @@ compile_commands.json
 *.geode
 *.geode.zip
 
-## Editor / OS
+# Keep VS Code settings tracked
 .vscode/*
 !.vscode/tasks.json
+!.vscode/settings.json
+
+## Editor / OS
 .idea/
 .DS_Store
 Thumbs.db

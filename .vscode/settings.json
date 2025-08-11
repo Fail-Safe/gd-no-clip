@@ -1,0 +1,14 @@
+{
+    "cmake.configureEnvironment": {
+        "GEODE_SDK": "${workspaceFolder}/.geode-sdk"
+    },
+    "cmake.buildEnvironment": {
+        "GEODE_SDK": "${workspaceFolder}/.geode-sdk"
+    },
+    "terminal.integrated.env.osx": {
+        "GEODE_SDK": "${workspaceFolder}/.geode-sdk"
+    },
+    "terminal.integrated.env.windows": {
+        "GEODE_SDK": "${workspaceFolder}\\.geode-sdk"
+    }
+}
